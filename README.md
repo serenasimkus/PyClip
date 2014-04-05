@@ -1,5 +1,4 @@
 # PyClip
-======
 
 Made at hackNY Spring 2014 by Serena Simkus and Gabriel Csapo.
 
