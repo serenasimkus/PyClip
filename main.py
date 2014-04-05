@@ -14,6 +14,7 @@ def main():
 	try:
 		netinfo = check_network()
 		(ip, mask) = netinfo
+		print netinfo
 		network = ip + "/" + mask
 	except:
 		print "Warning: No network connection found, scan may fail."
