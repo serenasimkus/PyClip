@@ -50,3 +50,5 @@ def findOthers(ip_searchable, name):
             name[ip_searchable] = computer
         else:
             sock.close()
+
+main()
