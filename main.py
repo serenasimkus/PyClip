@@ -1,3 +1,4 @@
+import mtTkinter as Tkinter
 from Tkinter import Tk, Frame, BOTH, Entry, StringVar
 import threading
 
@@ -24,8 +25,9 @@ class Example(Frame):
     def print_contents(self, event):
         name = self.contents.get()
         # Start network broadcast
-        server.Discoverable(name)
-        print(discovery.main())
+        process = Popen("python discovery.py")
+        #
+        process = Popen("python server.py " + name)
 
     def centerWindow(self):
 
@@ -44,7 +46,6 @@ def main():
     root = Tk()
     ex = Example(root)
     root.mainloop()
-
 
 if __name__ == '__main__':
     main()
