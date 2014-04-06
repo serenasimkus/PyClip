@@ -5,10 +5,10 @@ context = zmq.Context()
 
 # Define the socket using the "Context"
 sock = context.socket(zmq.REP)
-sock.bind("tcp://127.0.0.1:5678")
+sock.bind("tcp://*:5690")
 
 # Run a simple "Echo" server
 while True:
     message = sock.recv()
-    if(message == "Serena"):
-        print "Echo: " + message
+    sock.send("Serena")
+    print message
