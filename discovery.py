@@ -23,7 +23,7 @@ def main():
     for process in processes:
         process.join()
 
-    print name.values()
+    return name.values()
 
 def findOthers(ip_searchable, name):
     # ZeroMQ Context
@@ -33,7 +33,7 @@ def findOthers(ip_searchable, name):
     sock = context.socket(zmq.REQ)
     sock.setsockopt(zmq.LINGER, 0)
 
-    sock.connect("tcp://"+ip_searchable+":5625")
+    sock.connect("tcp://"+ip_searchable+":5695")
 
     # Send a "message" using the socket
     sock.send("Serena")
@@ -49,9 +49,3 @@ def findOthers(ip_searchable, name):
             name[ip_searchable] = computer
         else:
             sock.close()
-
-start = time.time()
-
-main()
-
-print (time.time() - start)

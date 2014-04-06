@@ -1,4 +1,8 @@
 from Tkinter import Tk, Frame, BOTH, Entry, StringVar
+import threading
+
+# Project Modules
+import discovery, server
 
 class Example(Frame):
 
@@ -18,8 +22,10 @@ class Example(Frame):
         self.centerWindow()
 
     def print_contents(self, event):
-        print "hi. contents of entry is now ---->", \
-              self.contents.get()
+        name = self.contents.get()
+        # Start network broadcast
+        threading.Thread(server.Discoverable(name))
+        print(discovery.main())
 
     def centerWindow(self):
 
