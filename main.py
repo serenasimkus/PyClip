@@ -1,4 +1,3 @@
-import mtTkinter as Tkinter
 from Tkinter import Tk, Frame, BOTH, Entry, StringVar
 import threading
 
