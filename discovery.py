@@ -34,7 +34,7 @@ def findOthers(ip_searchable, name):
     sock = context.socket(zmq.REQ)
     sock.setsockopt(zmq.LINGER, 0)
 
-    sock.connect("tcp://"+ip_searchable+":5696")
+    sock.connect("tcp://"+ip_searchable+":5697")
 
     # Send a "message" using the socket
     sock.send("Serena")
