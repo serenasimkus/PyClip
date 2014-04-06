@@ -7,7 +7,7 @@ def Discoverable(name):
 
     # Define the socket using the "Context"
     sock = context.socket(zmq.REP)
-    sock.bind("tcp://*:5695")
+    sock.bind("tcp://*:5696")
 
     # Run a simple "Echo" server
     while True:

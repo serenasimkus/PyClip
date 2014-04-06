@@ -11,7 +11,7 @@ def main():
     processes = []
     result = []
 
-    for j in range(142, 143):
+    for j in range(256):
         x = ip + str(j) + '.'
         for i in range(256):
             ip_searchable = x + str(i)
@@ -23,7 +23,7 @@ def main():
     for process in processes:
         process.join()
 
-    return name.values()
+    print name.values()
 
 def findOthers(ip_searchable, name):
     # ZeroMQ Context
@@ -33,7 +33,7 @@ def findOthers(ip_searchable, name):
     sock = context.socket(zmq.REQ)
     sock.setsockopt(zmq.LINGER, 0)
 
-    sock.connect("tcp://"+ip_searchable+":5695")
+    sock.connect("tcp://"+ip_searchable+":5696")
 
     # Send a "message" using the socket
     sock.send("Serena")

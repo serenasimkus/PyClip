@@ -24,7 +24,7 @@ class Example(Frame):
     def print_contents(self, event):
         name = self.contents.get()
         # Start network broadcast
-        threading.Thread(server.Discoverable(name))
+        server.Discoverable(name)
         print(discovery.main())
 
     def centerWindow(self):
