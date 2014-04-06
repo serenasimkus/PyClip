@@ -14,3 +14,5 @@ def Discoverable(name):
     while True:
         message = sock.recv()
         sock.send(name)
+
+Discoverable(args[0])
