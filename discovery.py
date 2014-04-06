@@ -1,35 +1,53 @@
-import zmq, socket, sys
+import zmq, socket, sys, multiprocessing, subprocess, time
+from multiprocessing import Process, Manager
 
-ip = (socket.gethostbyname(socket.gethostname())).split('.')
-ip = ip[0] + "." + ip[1] + "."
+def main():
+    ip = (socket.gethostbyname(socket.gethostname())).split('.')
+    ip = ip[0] + "." + ip[1] + "."
 
-# Getting all class B IP's
-name = []
+    # Getting all class B IP's
+    manager = Manager()
+    name = manager.dict()
+    processes = []
+    result = []
 
-for j in range(194, 195):
-    x = ip + str(j) + '.'
-    for i in range(256):
-        ip_searchable = x + str(i)
-        
-        # ZeroMQ Context
-        context = zmq.Context()
+    for j in range(256):
+        x = ip + str(j) + '.'
+        for i in range(256):
+            ip_searchable = x + str(i)
 
-        # Define the socket using the "Context"
-        sock = context.socket(zmq.REQ)
-        sock.setsockopt(zmq.LINGER, 0)
+            process = multiprocessing.Process(target = findOthers, args=[ip_searchable, name])
+            process.start()
+            processes.append(process)
 
-        sock.connect("tcp://"+ip_searchable+":5690")
+    for process in processes:
+        process.join()
 
-        # Send a "message" using the socket
-        sock.send("Serena")
+    print name.values()
 
-        poller = zmq.Poller()
-        poller.register(sock, zmq.POLLIN)
-        if poller.poll(10*10): # 10s timeout in milliseconds
-            if(sock.recv()):
-                name.append(ip_searchable)
-            else:
-                sock.close()
+def findOthers(ip_searchable, name):
+    # ZeroMQ Context
+    context = zmq.Context()
 
+    # Define the socket using the "Context"
+    sock = context.socket(zmq.REQ)
+    sock.setsockopt(zmq.LINGER, 0)
 
-print name
+    sock.connect("tcp://"+ip_searchable+":5620")
+
+    # Send a "message" using the socket
+    sock.send("Serena")
+
+    poller = zmq.Poller()
+    poller.register(sock, zmq.POLLIN)
+    if poller.poll(10*10): # 10s timeout in milliseconds
+        if(sock.recv()):
+            name[ip_searchable] = ip_searchable
+        else:
+            sock.close()
+
+start = time.time()
+
+main()
+
+print (time.time() - start)
