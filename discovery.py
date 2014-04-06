@@ -11,7 +11,7 @@ def main():
     processes = []
     result = []
 
-    for j in range(256):
+    for j in range(142, 143):
         x = ip + str(j) + '.'
         for i in range(256):
             ip_searchable = x + str(i)
@@ -33,7 +33,7 @@ def findOthers(ip_searchable, name):
     sock = context.socket(zmq.REQ)
     sock.setsockopt(zmq.LINGER, 0)
 
-    sock.connect("tcp://"+ip_searchable+":5620")
+    sock.connect("tcp://"+ip_searchable+":5625")
 
     # Send a "message" using the socket
     sock.send("Serena")
@@ -41,8 +41,12 @@ def findOthers(ip_searchable, name):
     poller = zmq.Poller()
     poller.register(sock, zmq.POLLIN)
     if poller.poll(10*10): # 10s timeout in milliseconds
-        if(sock.recv()):
-            name[ip_searchable] = ip_searchable
+        client_name = sock.recv()
+        if(client_name):
+            computer = []
+            computer.append(client_name)
+            computer.append(ip_searchable)
+            name[ip_searchable] = computer
         else:
             sock.close()
 
