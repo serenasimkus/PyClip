@@ -1,10 +1,8 @@
 from Tkinter import Tk, Frame, BOTH, Entry, StringVar
-import threading
+import threading, subprocess, sys, os
+from subprocess import Popen, PIPE
 
-# Project Modules
-import discovery, server
-
-class Example(Frame):
+class Login(Frame):
 
     def __init__(self, parent):
         Frame.__init__(self, parent, background="white")
@@ -14,7 +12,6 @@ class Example(Frame):
         self.entrythingy = Entry()
         self.entrythingy.pack()
         self.contents = StringVar()
-        self.contents.set("this is a variable")
         self.entrythingy["textvariable"] = self.contents
         self.entrythingy.bind('<Key-Return>',
                               self.print_contents)
@@ -23,10 +20,15 @@ class Example(Frame):
 
     def print_contents(self, event):
         name = self.contents.get()
-        # Start network broadcast
-        process = Popen("python discovery.py")
-        #
-        process = Popen("python server.py " + name)
+        if(name):
+            # Start network discovery
+            subprocess.call([os.path.dirname(os.path.abspath(sys.argv[0]))+ "/" + "discovery.sh", name])
+            # process = Popen("python discovery.py", stdout=PIPE)
+            # stdout, stderr = process.communicate()
+            # # Starts network broadcast
+            # process1 = Popen("python server.py " + name, stdout=PIPE)
+            # stdout, stderr = process1.communicate()
+            root.destroy()
 
     def centerWindow(self):
 
@@ -43,7 +45,7 @@ class Example(Frame):
 def main():
 
     root = Tk()
-    ex = Example(root)
+    ex = Login(root)
     root.mainloop()
 
 if __name__ == '__main__':

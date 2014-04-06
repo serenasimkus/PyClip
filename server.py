@@ -1,5 +1,5 @@
 #
-import zmq
+import zmq, sys
 
 def Discoverable(name):
 
@@ -15,4 +15,4 @@ def Discoverable(name):
         message = sock.recv()
         sock.send(name)
 
-Discoverable(args[0])
+Discoverable(sys.argv[0])
